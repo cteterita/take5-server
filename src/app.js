@@ -1,11 +1,22 @@
 require('dotenv').config();
+const admin = require('firebase-admin');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
-const { NODE_ENV } = require('./config');
+
+const { NODE_ENV, FIREBASE_DB_URL } = require('./config');
+const serviceAccount = require('../firebase.json');
 
 const app = express();
+
+const firebaseAdmin = admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: FIREBASE_DB_URL,
+});
+
+const db = firebaseAdmin.firestore();
+const entries = db.collection('journalEntries');
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -15,8 +26,28 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
+app.use('/', (req, res, next) => {
+  if (req.headers.authtoken) {
+    firebaseAdmin.auth().verifyIdToken(req.headers.authtoken)
+      .then((user) => {
+        console.log(user);
+        next();
+      }).catch(() => {
+        res.status(403).send('Unauthorized');
+      });
+  } else {
+    res.status(403).send('Unauthorized');
+  }
+});
+
 app.get('/', (req, res) => {
-  res.send('Hello, world!');
+  entries.get()
+    .then((querySnapshot) => {
+        console.log(querySnapshot);
+        let payload = [];
+        querySnapshot.forEach((doc) => payload.push(doc.data()));
+        return res.send(payload);
+    });
 });
 
 app.use((error, req, res, next) => {
