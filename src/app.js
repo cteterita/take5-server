@@ -22,7 +22,7 @@ app.use((req, res, next) => {
   if (req.headers.authtoken) {
     req.app.get('auth').verifyIdToken(req.headers.authtoken)
       .then((user) => {
-        req.user = user;
+        req.userId = user.uid;
         next();
       })
       .catch(() => {
@@ -44,7 +44,6 @@ app.use((error, req, res, next) => {
   if (NODE_ENV === 'production') {
     response = { error: { message: 'server error' } };
   } else {
-    console.error(error);
     response = { message: error.message, error };
   }
   res.status(500).json(response);
