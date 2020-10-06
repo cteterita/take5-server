@@ -6,6 +6,8 @@ const helmet = require('helmet');
 
 const { NODE_ENV } = require('./config');
 
+const entriesRouter = require('./entries/entries-router');
+
 const app = express();
 
 const morganOption = (NODE_ENV === 'production')
@@ -16,7 +18,7 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
-app.use('/', (req, res, next) => {
+app.use((req, res, next) => {
   if (req.headers.authtoken) {
     req.app.get('auth').verifyIdToken(req.headers.authtoken)
       .then((user) => {
@@ -32,15 +34,10 @@ app.use('/', (req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  const db = req.app.get('db');
-  const entries = db.collection('journalEntries');
-  entries.get()
-    .then((querySnapshot) => {
-      const payload = [];
-      querySnapshot.forEach((doc) => payload.push(doc.data()));
-      return res.send(payload);
-    });
+  res.send('Hello, world!');
 });
+
+app.use(entriesRouter);
 
 app.use((error, req, res, next) => {
   let response;
