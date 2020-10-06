@@ -5,10 +5,12 @@ const entriesRouter = express.Router();
 
 entriesRouter
   .route('/entries')
+  .all((req, res, next) => {
+    req.db = req.app.get('db').collection('journalEntries');
+    next();
+  })
   .get((req, res) => {
-    const db = req.app.get('db');
-    const entries = db.collection('journalEntries');
-    entries.get()
+    req.db.get()
       .then((querySnapshot) => {
         const payload = [];
         querySnapshot.forEach((doc) => payload.push(doc.data()));

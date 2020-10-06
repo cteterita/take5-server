@@ -22,7 +22,7 @@ app.use((req, res, next) => {
   if (req.headers.authtoken) {
     req.app.get('auth').verifyIdToken(req.headers.authtoken)
       .then((user) => {
-        console.log(user);
+        req.user = user;
         next();
       })
       .catch(() => {
