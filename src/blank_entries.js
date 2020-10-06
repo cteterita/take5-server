@@ -1,4 +1,5 @@
-// These are the default questions to send when a day's entries are incomplete
+// These are the default questions to send when a day's entries are incomplete. In the future
+// they can be dynamic, user-generated, etc, which is why they're stored on the server.
 const blankEntries = {
   morning: {
     complete: false,
