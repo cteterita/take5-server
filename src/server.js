@@ -1,13 +1,11 @@
 const admin = require('firebase-admin');
 
-const serviceAccount = require('../firebase.json');
-
 const app = require('./app');
-const { PORT, FIREBASE_DB_URL } = require('./config');
+const { PORT, FIREBASE_DB_URL, FIREBASE_CREDENTIALS } = require('./config');
 
 // Initialize authentication service
 const firebaseAdmin = admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(FIREBASE_CREDENTIALS),
   databaseURL: FIREBASE_DB_URL,
 });
 const auth = firebaseAdmin.auth();
