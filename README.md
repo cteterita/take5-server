@@ -12,5 +12,5 @@ Authentication: [Firebase Authentication](https://firebase.google.com/docs/auth)
 
 ## TODOs
 
--Improve error handling
--Improve data validation
+- Improve error handling
+- Improve data validation
