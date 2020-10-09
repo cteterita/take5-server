@@ -2,7 +2,7 @@
 const admin = require('firebase-admin');
 
 const app = require('../src/app');
-const { FIREBASE_DB_URL, FIREBASE_CREDENTIALS } = require('../src/config');
+const { FIREBASE_TEST_DB_URL, FIREBASE_CREDENTIALS } = require('../src/config');
 const { getIdToken } = require('./test-utilities');
 
 describe('App authentication', () => {
@@ -13,7 +13,7 @@ describe('App authentication', () => {
   before('create firebase app and user', () => {
     firebaseAdmin = admin.initializeApp({
       credential: admin.credential.cert(FIREBASE_CREDENTIALS),
-      databaseURL: FIREBASE_DB_URL,
+      databaseURL: FIREBASE_TEST_DB_URL,
     });
     auth = firebaseAdmin.auth();
     app.set('auth', auth);

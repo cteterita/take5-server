@@ -3,7 +3,7 @@ const { FIREBASE_API_KEY } = require('../src/config');
 
 const utilities = {
   getIdToken: async (auth, uid) => {
-    let customToken = await auth.createCustomToken(uid)
+    const customToken = await auth.createCustomToken(uid);
     const body = JSON.stringify({
       token: customToken,
       returnSecureToken: true,

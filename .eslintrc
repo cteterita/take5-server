@@ -4,6 +4,7 @@
         "supertest": true,
         "expect": true,
         "describe": true,
+        "context": true,
         "it": true,
         "before": true,
         "after": true
