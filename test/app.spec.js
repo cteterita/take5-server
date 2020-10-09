@@ -5,12 +5,13 @@ const app = require('../src/app');
 const { FIREBASE_DB_URL, FIREBASE_CREDENTIALS } = require('../src/config');
 const { getIdToken } = require('./test-utilities');
 
-describe('App', () => {
+describe('App authentication', () => {
   let auth;
   let user;
   let authToken;
+  let firebaseAdmin;
   before('create firebase app and user', () => {
-    const firebaseAdmin = admin.initializeApp({
+    firebaseAdmin = admin.initializeApp({
       credential: admin.credential.cert(FIREBASE_CREDENTIALS),
       databaseURL: FIREBASE_DB_URL,
     });
@@ -22,15 +23,18 @@ describe('App', () => {
     })
       .then((newUser) => {
         user = newUser;
-        getIdToken(auth, user.uid)
-          .then((token) => {
-            authToken = token;
-          });
+      });
+  });
+  before('set authToken', () => {
+    return getIdToken(auth, user.uid)
+      .then((token) => {
+        authToken = token;
       });
   });
   after('delete user', () => {
     auth.deleteUser(user.uid);
   });
+
   it('A request without an authtoken responds with 403 unauthorized', () => {
     return supertest(app)
       .get('/')
@@ -44,11 +48,10 @@ describe('App', () => {
       .expect(403, 'Unauthorized');
   });
 
-  it.skip('A request with a valid authtoken responds with an empty array', () => {
-    // Currently failing because authToken is not set in before() in time
+  it('A request with a valid authtoken responds with hello, world', () => {
     return supertest(app)
-      .get('/entries')
+      .get('/')
       .set('authtoken', authToken)
-      .expect(200, []);
+      .expect(200, 'Hello, world!');
   });
 });
