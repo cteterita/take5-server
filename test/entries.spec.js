@@ -15,10 +15,13 @@ describe('Entries endpoint', () => {
   before('create firebase app and user', () => {
     firebaseAdmin = admin.initializeApp({
       credential: admin.credential.cert(FIREBASE_CREDENTIALS),
-      databaseURL: FIREBASE_TEST_DB_URL, // TODO: Why isn't it using the proper URL?
     }, 'app');
     auth = firebaseAdmin.auth();
     const db = firebaseAdmin.firestore();
+    db.settings({
+      host: FIREBASE_TEST_DB_URL,
+      ssl: false,
+    });
     app.set('db', db);
     app.set('auth', auth);
     // Firebase doesn't have an auth emulator, so we have to create a real user
