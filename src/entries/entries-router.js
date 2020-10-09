@@ -2,7 +2,7 @@ const express = require('express');
 // const xss = require('xss');
 
 const entriesService = require('./entries-service');
-const blankEntries = require('../blank_entries');
+const blankEntries = require('../blank-entries');
 
 const entriesRouter = express.Router();
 const bodyParser = express.json();
