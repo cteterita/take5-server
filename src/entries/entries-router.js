@@ -1,5 +1,5 @@
 const express = require('express');
-// const xss = require('xss');
+const xss = require('xss');
 
 const entriesService = require('./entries-service');
 const blankEntries = require('../blank-entries');
@@ -10,8 +10,16 @@ const bodyParser = express.json();
 const validEntryTypes = ['morning', 'evening'];
 
 function serializeEntry(e) {
+  const sanitizedPrompts = e.prompts.map((p) => {
+    const { prompt, promptId, responses } = p;
+    return {
+      prompt,
+      promptId,
+      responses: responses.map((r) => xss(r)),
+    };
+  });
   return {
-    prompts: e.prompts, // TODO: Sanitize responses
+    prompts: sanitizedPrompts,
     complete: true,
   };
 }
@@ -52,7 +60,7 @@ entriesRouter
     }
     entryData.date = req.params.date;
     entryData.userId = req.userId;
-    entriesService.insertEntry(req.db, entryData)
+    return entriesService.insertEntry(req.db, entryData)
       .then(() => res.status(201).end())
       .catch(next);
   })
