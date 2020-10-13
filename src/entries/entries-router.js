@@ -7,6 +7,8 @@ const blankEntries = require('../blank-entries');
 const entriesRouter = express.Router();
 const bodyParser = express.json();
 
+const validEntryTypes = ['morning', 'evening'];
+
 function serializeEntry(e) {
   return {
     prompts: e.prompts, // TODO: Sanitize responses
@@ -25,7 +27,7 @@ function formatDaysEntries(querySnapshot) {
 }
 
 entriesRouter
-  .route('/entries/:date')
+  .route('/entries/:date(20[0-2][0-9]-[0-1][0-9]-[0-3][0-9]$)') // Match only valid dates (more or less)
   .all((req, res, next) => {
     // Assign the entries collection to all incoming requests
     req.db = req.app.get('db').collection('journalEntries');
@@ -42,7 +44,12 @@ entriesRouter
   .post(bodyParser, (req, res, next) => {
     const { type, prompts } = req.body;
     const entryData = { type, prompts };
-    // TODO: Validate entry data
+    if (!prompts) {
+      return res.status(400).send('Invalid data: prompts are required');
+    }
+    if (!validEntryTypes.includes(type)) {
+      return res.status(400).send(`Invalid data: must be one of ${validEntryTypes.join(', ')}`);
+    }
     entryData.date = req.params.date;
     entryData.userId = req.userId;
     entriesService.insertEntry(req.db, entryData)

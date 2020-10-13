@@ -50,6 +50,47 @@ describe('Entries endpoint', () => {
         .expect(200, blankEntries);
     });
 
+    it('returns 404 for a bogus date', () => {
+      return supertest(app)
+        .get('/entries/2020-10-40')
+        .set('authtoken', authToken)
+        .expect(404);
+    });
+
+    it('rejects an entry with missing prompts', () => {
+      const body = {
+        type: 'morning',
+      };
+      return supertest(app)
+        .post('/entries/2020-10-10')
+        .send(body)
+        .set('authtoken', authToken)
+        .expect(400, 'Invalid data: prompts are required');
+    });
+
+    it('rejects an entry with a missing type', () => {
+      const body = {
+        prompts: blankEntries.morning.prompts,
+      };
+      return supertest(app)
+        .post('/entries/2020-10-10')
+        .send(body)
+        .set('authtoken', authToken)
+        .expect(400, 'Invalid data: must be one of morning, evening');
+    });
+
+    it('rejects an entry with an invalid type', () => {
+      const body = {
+        type: 'invalid',
+        prompts: blankEntries.morning.prompts,
+      };
+      return supertest(app)
+        .post('/entries/2020-10-10')
+        .send(body)
+        .set('authtoken', authToken)
+        .expect(400, 'Invalid data: must be one of morning, evening');
+    });
+
     it('saves a new entry', () => {
       const body = {
         type: 'morning',
