@@ -1,16 +1,17 @@
-# Take5 Express Server
+# Take 5, A Journaling App for Intention & Gratitude
+[Live Link](https://take5-react.vercel.app/)
 
-This is the backend for Take5, a daily journaling app
+## Summary
+Take 5 is a journaling app that guides users to set their intentions every morning, and practice gratitude in the evenings.
 
-Live demo of full app here: https://take5-react.vercel.app/
+The concept and questions are an exercise developed by Abigail Bruce at [Integrative Care NP, LLC](https://www.integrativemindbody.com/).
 
-## Technologies
+![Screenshot of app](/screenshots/Demo.png)
 
-API Framework: Node.js & [Express.js](https://expressjs.com/)
-Database: [Cloud Firestore](https://firebase.google.com/docs/firestore)
-Authentication: [Firebase Authentication](https://firebase.google.com/docs/auth)
+## Technologies & Services Used:
+- [Node.js](https://nodejs.org/en/)
+- [Firebase Firestore](https://firebase.google.com/docs/firestore)
+- [Express](https://expressjs.com/)
 
-## TODOs
-
-- Improve error handling
-- Improve data validation
+## Backend Repo
+- (take5-react)[https://github.com/cteterita/take5-react]
