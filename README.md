@@ -13,5 +13,5 @@ The concept and questions are an exercise developed by Abigail Bruce at [Integra
 - [Firebase Firestore](https://firebase.google.com/docs/firestore)
 - [Express](https://expressjs.com/)
 
-## Backend Repo
-- (take5-react)[https://github.com/cteterita/take5-react]
+## Frontend Repo
+- [take5-react](https://github.com/cteterita/take5-react)
