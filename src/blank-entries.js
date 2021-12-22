@@ -35,7 +35,7 @@ const blankEntries = {
     complete: false,
     prompts: [
       {
-        prompt: '3 great things that happened today were...',
+        prompt: '3 things that delighted me today were...',
         promptId: 4,
         responses: [
           '',
@@ -44,7 +44,7 @@ const blankEntries = {
         ],
       },
       {
-        prompt: 'One thing I let go of today was...',
+        prompt: 'I was proud of myself today because...',
         promptId: 5,
         responses: [
           '',
