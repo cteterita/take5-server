@@ -23,7 +23,7 @@ const blankEntries = {
         ],
       },
       {
-        prompt: 'My intention for today is...',
+        prompt: 'One creative thing I will do today is...',
         promptId: 3,
         responses: [
           '',
