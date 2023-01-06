@@ -14,16 +14,14 @@ const blankEntries = {
         ],
       },
       {
-        prompt: '3 things that will make today great...',
+        prompt: 'One thing that will make today great is...',
         promptId: 2,
         responses: [
-          '',
-          '',
           '',
         ],
       },
       {
-        prompt: 'One creative thing I will do today is...',
+        prompt: 'I am proud of myself today because...',
         promptId: 3,
         responses: [
           '',
@@ -44,7 +42,7 @@ const blankEntries = {
         ],
       },
       {
-        prompt: 'I was proud of myself today because...',
+        prompt: 'One creative thing I did today was...',
         promptId: 5,
         responses: [
           '',
