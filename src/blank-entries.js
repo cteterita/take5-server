@@ -42,7 +42,7 @@ const blankEntries = {
         ],
       },
       {
-        prompt: 'One creative thing I did today was...',
+        prompt: 'One novel thing I did today was...',
         promptId: 5,
         responses: [
           '',
